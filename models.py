@@ -8,8 +8,8 @@ from django.db import IntegrityError
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
-from django.db.transaction import atomic
-# from django.db.transaction import commit_on_success <- removed
+#from django.db.transaction import atomic
+from django.db.transaction import commit_on_success
 
 VERSION = 2
 
@@ -55,8 +55,8 @@ class MembershipInfo( models.Model ) :
 								else ""
 		}
 
-	# @commit_on_success
-        @atomic
+	@commit_on_success
+        #@atomic
 	def make_user( self ) :
 		if self.user is not None :
 			return None
