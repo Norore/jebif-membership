@@ -51,7 +51,7 @@ def subscription_renew( request, info_id ) :
     today = datetime.date.today()
 
     if membership.date_begin >= today :
-                return render(request, "membership/subscription_renewed.html", "membership": membership})
+                return render(request, "membership/subscription_renewed.html", {"membership": membership})
 
     if request.method == 'POST' :
         form = MembershipInfoForm(request.POST, instance=info)
@@ -66,7 +66,7 @@ def subscription_renew( request, info_id ) :
             else :
                 m.init_date(membership.date_end + datetime.timedelta(1))
             m.save()
-                        return render(request, "membership/subscription_renew.html", {"membership": m})
+            return render(request, "membership/subscription_renew.html", {"membership": m})
     else :
         form = MembershipInfoForm(instance=info)
 
@@ -108,7 +108,7 @@ def subscription_update( request, info_id ) :
                     u.save()
             if info.email != old_email :
                 MembershipInfoEmailChange.objects.create(old_email=old_email, info=info)
-                        return render(request, "membership/subscription_updated.html", {"membership": membership})
+                return render(request, "membership/subscription_updated.html", {"membership": membership})
     else :
         form = MembershipInfoForm(instance=info)
 
@@ -150,7 +150,7 @@ avec ton identifiant '%(login)s'%(passwd_setup)s.
 L’équipe du RSG-France (JeBiF)
         """ % data
             send_mail(msg_subj, msg_txt, msg_from, msg_to)
-                        return render(request, "membership/subscription_preupdated.html", {"email": info.email})
+            return render(request, "membership/subscription_preupdated.html", {"email": info.email})
     else :
         form = MembershipInfoEmailForm()
         return render(request, "membership/subscription_preupdate.html", {"form": form})
